@@ -1,8 +1,8 @@
 import 'package:blog_app/core/common/widgets/loader.dart';
-import 'package:blog_app/core/routing/dashboard_router.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/signup_page.dart';
+import 'package:blog_app/features/home/presentation/pages/home_page.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.dispose();
     super.dispose();
   }
+  @override
   Widget build(BuildContext context) {
     // formKey.currentState!.validate()
     return Scaffold(
@@ -40,7 +41,11 @@ class _LoginPageState extends State<LoginPage> {
                 SnackBar(content: Text(state.message)),
               );
             } else if (state is AuthSuccess) {
-              DashboardRouter.navigate(context, state.user);
+              Navigator.pushAndRemoveUntil(
+                context,
+                HomePage.route(state.user),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {
